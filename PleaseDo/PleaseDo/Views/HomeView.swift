@@ -16,9 +16,10 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             TabView {
-                Text("page1")
-                Text("page2")
-                Text("page3")
+                ListView(title: "To Do")
+                ListView(title: "In Progress")
+                ListView(title: "Done")
+              
             }
             .tabViewStyle(.page)
             .navigationBarTitleDisplayMode(.inline)
