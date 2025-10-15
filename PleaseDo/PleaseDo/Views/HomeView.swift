@@ -22,23 +22,23 @@ struct HomeView: View {
             }
             .tabViewStyle(.page)
             .navigationBarTitleDisplayMode(.inline)
+        
             .toolbar {
-                ToolbarItem(placement: .topBarLeading
-                ){
+                // Left side (Leading)
+                ToolbarItem(placement: .topBarLeading) {
                     Button {
                         print("logout")
                     } label: {
                         Image(systemName: "person.crop.circle")
-                        
                     }
                 }
-                ToolbarItem(placement: .topBarLeading
-                ){
+
+                // Right side (Trailing)
+                ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         print("Navigate to new Item")
                     } label: {
                         Image(systemName: "plus")
-                        
                     }
                 }
             }
