@@ -10,7 +10,7 @@ import SwiftUI
 struct ListView: View {
     
     let title: String
-    
+    @Binding var items :[Item]
     var body: some View {
         VStack(spacing: 0){
             Text(title)
@@ -28,10 +28,10 @@ struct ListView: View {
                 .padding(.horizontal , 16)
                 .padding(.top, 16)
                
-            List {
-                Text("item 1")
-                Text("item 2")
-                Text("item 3")
+            List($items) { $item in
+                ListItemView(item: item, height: 100)
+                
+                
             }
             .scrollContentBackground(.hidden)
             .listStyle(.insetGrouped)
@@ -40,5 +40,11 @@ struct ListView: View {
 }
 
 #Preview {
-    ListView(title: "To Do")
+    ListView(title: "To Do", items: .constant([
+        Item(id: "1", authorId: "nasir", title: "test To Do", description: "this is a test todo descriptions  ",status: .done, priority: .low),
+        Item(id: "2", authorId: "Hussein", title: "test To Do2", description: "this is a test todo descriptions  2",status: .todo, priority: .high),
+        Item(id: "3", authorId: "Hasan", title: "test To Do3", description: "this is a test todo descriptions  3",status: .inProgress , priority: .medium),
+    ]
+                                            ))
+    
 }

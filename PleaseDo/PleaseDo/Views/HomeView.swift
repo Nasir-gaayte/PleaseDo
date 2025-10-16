@@ -11,15 +11,33 @@ struct HomeView: View {
     
     
     @State private var path = NavigationPath()
+    @State private var todo :[Item]=[
+        
+        Item(id: "1", authorId: "nasir", title: "test To Do", description: "this is a test todo descriptions  ",status: .done, priority: .low),
+        Item(id: "2", authorId: "Hussein", title: "test To Do2", description: "this is a test todo descriptions  2",status: .todo, priority: .high),
+        Item(id: "3", authorId: "Hasan", title: "test To Do3", description: "this is a test todo descriptions  3",status: .inProgress , priority: .medium),
+    ]
     
+    @State private var progress :[Item]=[
+        
+        Item(id: "1", authorId: "nasir", title: "test To Do", description: "this is a test todo descriptions  ",status: .done, priority: .low),
+        Item(id: "2", authorId: "Hussein", title: "test To Do2", description: "this is a test todo descriptions  2",status: .todo, priority: .high),
+        Item(id: "3", authorId: "Hasan", title: "test To Do3", description: "this is a test todo descriptions  3",status: .inProgress , priority: .medium),
+    ]
+    
+    @State private var done :[Item]=[
+        
+        Item(id: "1", authorId: "nasir", title: "test To Do", description: "this is a test todo descriptions  ",status: .done, priority: .low),
+        Item(id: "2", authorId: "Hussein", title: "test To Do2", description: "this is a test todo descriptions  2",status: .todo, priority: .high),
+        Item(id: "3", authorId: "Hasan", title: "test To Do3", description: "this is a test todo descriptions  3",status: .inProgress , priority: .medium),
+    ]
     
     var body: some View {
         NavigationStack {
             TabView {
-                ListView(title: "To Do")
-                ListView(title: "In Progress")
-                ListView(title: "Done")
-              
+                ListView(title: "To Do", items: $todo)
+                ListView(title: "In Progress", items: $progress)
+                ListView(title: "Done", items: $done)
             }
             .tabViewStyle(.page)
             .navigationBarTitleDisplayMode(.inline)
