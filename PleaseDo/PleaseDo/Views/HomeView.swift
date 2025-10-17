@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     
-    @State private var path = NavigationPath()
+    @State private var path:[NavPath] = []
     @State private var todo :[Item]=[
         
         Item(id: "1", authorId: "nasir", title: "test To Do", description: "this is a test todo descriptions  ",status: .done, priority: .low),
@@ -33,13 +33,21 @@ struct HomeView: View {
     ]
     
     var body: some View {
-        NavigationStack {
-            TabView {
-                ListView(title: "To Do", items: $todo)
-                ListView(title: "In Progress", items: $progress)
-                ListView(title: "Done", items: $done)
+        NavigationStack(path: $path){
+            ZStack  {
+                Color.background
+                    .ignoresSafeArea()
+                
+                
+                TabView {
+                              ListView(title: "To Do", items: $todo)
+                              ListView(title: "In Progress", items: $progress)
+                              ListView(title: "Done", items: $done)
+                          }
+                          .tabViewStyle(.page)
             }
-            .tabViewStyle(.page)
+            
+          
             .navigationBarTitleDisplayMode(.inline)
         
             .toolbar {
@@ -55,15 +63,20 @@ struct HomeView: View {
                 // Right side (Trailing)
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        print("Navigate to new Item")
+                        path.append(NavPath.newItem)
                     } label: {
                         Image(systemName: "plus")
                     }
                 }
             }
-            .navigationDestination(for: String.self
-            ) { _ in
-                Text("New Item")
+            .navigationDestination(for: NavPath.self
+            ) { path in
+                switch path {
+                case .newItem:
+                    Text("New Item")
+                case .details:
+                    Text("Details for ")
+                }
             }
         }
         
