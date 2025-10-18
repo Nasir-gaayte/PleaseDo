@@ -12,5 +12,5 @@ import Foundation
 
 enum NavPath: Hashable {
     case newItem
-    case details
+    case details(Item)
 }

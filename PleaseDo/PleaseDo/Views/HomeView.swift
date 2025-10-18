@@ -73,9 +73,9 @@ struct HomeView: View {
             ) { path in
                 switch path {
                 case .newItem:
-                    Text("New Item")
-                case .details:
-                    Text("Details for ")
+                    NewItemView()
+                case .details(let item):
+                    ItemDetailView(item: item)
                 }
             }
         }

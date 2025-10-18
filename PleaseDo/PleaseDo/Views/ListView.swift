@@ -29,7 +29,7 @@ struct ListView: View {
                 .padding(.top, 16)
                
             List($items) { $item in
-                NavigationLink(destination: Text("Item datils View")){
+                NavigationLink(value: NavPath.details(item)){
                     ListItemView(item: item, height: 100)
                 }
                 
