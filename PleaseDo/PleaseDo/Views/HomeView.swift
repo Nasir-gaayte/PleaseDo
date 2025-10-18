@@ -11,6 +11,7 @@ struct HomeView: View {
     
     @State private var vm  = ListVM()
     @State private var path:[NavPath] = []
+    @State private var showLogout:Bool = false
    
     var body: some View {
         NavigationStack(path: $path){
@@ -34,7 +35,7 @@ struct HomeView: View {
                 // Left side (Leading)
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        print("logout")
+                        showLogout = true
                     } label: {
                         Image(systemName: "person.crop.circle")
                     }
@@ -57,6 +58,17 @@ struct HomeView: View {
                 case .details(let item):
                     ItemDetailView(item: item)
                 }
+            }
+            .confirmationDialog("Containue Signing Out?",isPresented: $showLogout) {
+                Button("Confirm",role: .destructive){
+                    print( "logout")
+                }
+                Button("Cancel",role: .close){
+                    print( "cancel")
+                }
+                
+            } message: {
+                Text("Continue Signing Out?")
             }
         }
         
