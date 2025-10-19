@@ -1,19 +1,19 @@
 //
-//  LoginView.swift
+//  SignupView.swift
 //  PleaseDo
 //
-//  Created by nasir on 18/10/25.
+//  Created by nasir on 19/10/25.
 //
 
 import SwiftUI
 
-struct LoginView: View {
+struct SignupView: View {
     
-   @State var userText:String = ""
-    @State var passText:String = ""
-    
+    @State var email:String = ""
+     @State var passText:String = ""
+    @State var firstName:String = ""
+    @State var secondName:String = ""
     var body: some View {
-        
         VStack {
             Spacer()
             HStack(spacing:10){
@@ -31,31 +31,36 @@ struct LoginView: View {
                         .foregroundColor(.secondary)
                 }.padding(10)
             }.padding(10)
-            TextField( "\(Image(systemName: "person.fill")) Username", text: $userText)
+            TextField( "\(Image(systemName: "person.fill")) First Name", text: $firstName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
+            TextField( "\(Image(systemName: "person.fill")) Second Name", text: $secondName)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            TextField( "\(Image(systemName: "mail")) Email", text: $email)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+            
             
             SecureField("\(Image(systemName: "lock.fill")) Password", text: $passText)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
             
-            Button("save",action: {
+            ButtonLogView(title:"SignUp") {
                 print("hala")
-            })
+            }
             Spacer()
             
             HStack{
-                Text("Don't have an account?")
-                Button("Sign Up"){
-                    print("Sign Up")
+                Text("If you already have an account?")
+                NavigationLink("Login"){
+                    LoginView()
                 }
             }
         }
     }
-    
-    
 }
 
 #Preview {
-    LoginView()
+    SignupView()
 }

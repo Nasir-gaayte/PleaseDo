@@ -57,11 +57,16 @@ struct HomeView: View {
                     NewItemView()
                 case .details(let item):
                     ItemDetailsView(item: item)
+                case .login:
+                    LoginView()
+                case .signup:
+                    SignupView()
                 }
             }
             .confirmationDialog("Containue Signing Out?",isPresented: $showLogout) {
                 Button("Confirm",role: .destructive){
                     print( "logout")
+                    path.append(NavPath.login)
                 }
                 Button("Cancel",role: .close){
                     print( "cancel")

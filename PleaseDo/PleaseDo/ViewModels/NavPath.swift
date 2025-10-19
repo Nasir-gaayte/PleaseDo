@@ -13,4 +13,6 @@ import Foundation
 enum NavPath: Hashable {
     case newItem
     case details(Item)
+    case login
+    case signup
 }
