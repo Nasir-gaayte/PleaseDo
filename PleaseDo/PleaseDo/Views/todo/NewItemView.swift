@@ -20,7 +20,7 @@ struct NewItemView: View {
             VStack(alignment: .leading){
                 TitleTextField(title: "Title:-", placeholder: "Enter your Title", description: titleKey)
                 TitleTextField(title: "Description:-", placeholder: "Enter your Description", description: description)
-                    .padding(.vertical,30)
+                    
 Divider()
                 // Status picker
                 VStack(alignment:.leading){

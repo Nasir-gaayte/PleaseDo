@@ -61,12 +61,14 @@ struct HomeView: View {
                     LoginView()
                 case .signup:
                     SignupView()
+                case .loginPage:
+                    LogedPageView()
                 }
             }
             .confirmationDialog("Containue Signing Out?",isPresented: $showLogout) {
                 Button("Confirm",role: .destructive){
                     print( "logout")
-                    path.append(NavPath.login)
+                    path.append(NavPath.loginPage)
                 }
                 Button("Cancel",role: .close){
                     print( "cancel")

@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct SignupView: View {
-    
-    @State var email:String = ""
-     @State var passText:String = ""
-    @State var firstName:String = ""
-    @State var secondName:String = ""
+    @State var vm:LoginVM = LoginVM()
+    @Binding var email:String
+     @Binding var password:String
+    @Binding var firstName:String
+    @Binding var secondName:String
     var body: some View {
         VStack {
             Spacer()
@@ -33,18 +33,25 @@ struct SignupView: View {
             }.padding(10)
             TextField( "\(Image(systemName: "person.fill")) First Name", text: $firstName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
+                .keyboardType(.default)
             TextField( "\(Image(systemName: "person.fill")) Second Name", text: $secondName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
+                .keyboardType(.default)
             TextField( "\(Image(systemName: "mail")) Email", text: $email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
+                .keyboardType(.default)
             
-            
-            SecureField("\(Image(systemName: "lock.fill")) Password", text: $passText)
+            SecureField("\(Image(systemName: "lock.fill")) Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
+                .keyboardType(.default)
             
             ButtonLogView(title:"SignUp") {
                 print("hala")
@@ -54,7 +61,7 @@ struct SignupView: View {
             HStack{
                 Text("If you already have an account?")
                 NavigationLink("Login"){
-                    LoginView()
+                    LoginView(userName: $vm.username, password:$vm.password)
                 }
             }
         }
@@ -62,5 +69,5 @@ struct SignupView: View {
 }
 
 #Preview {
-    SignupView()
+    SignupView(email: .constant(""), password: .constant(""), firstName: .constant(""), secondName: .constant(""))
 }

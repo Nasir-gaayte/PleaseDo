@@ -15,4 +15,5 @@ enum NavPath: Hashable {
     case details(Item)
     case login
     case signup
+    case loginPage
 }

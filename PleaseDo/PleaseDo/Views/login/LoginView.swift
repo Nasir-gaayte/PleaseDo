@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct LoginView: View {
-    
-   @State var userText:String = ""
-    @State var passText:String = ""
+    @State var vm:LoginVM = LoginVM()
+   @Binding var userName:String
+    @Binding var password:String
     @State private var path:[NavPath] = []
     
     
@@ -33,14 +33,17 @@ struct LoginView: View {
                         .foregroundColor(.secondary)
                 }.padding(10)
             }.padding(10)
-            TextField( "\(Image(systemName: "person.fill")) Username", text: $userText)
+            TextField( "\(Image(systemName: "person.fill")) Username", text: $userName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
+                .keyboardType(.default)
             
-            SecureField("\(Image(systemName: "lock.fill")) Password", text: $passText)
+            SecureField("\(Image(systemName: "lock.fill")) Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
-            
+                .keyboardType(.default)
             ButtonLogView(title:"Login"){
                 print("loged in")
                 
@@ -51,7 +54,7 @@ struct LoginView: View {
             HStack{
                 Text("Don't have an account?")
                 NavigationLink("Sign up") {
-                    SignupView()
+                    SignupView(email: $vm.email, password: $vm.password, firstName: $vm.firstName, secondName: $vm.secondName)
                 }
 
             }
@@ -62,5 +65,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    LoginView(userName: .constant(""), password:.constant(""))
 }

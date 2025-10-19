@@ -22,6 +22,7 @@ struct TitleTextField: View {
                .foregroundStyle(.secondary)
            TextField("\(placeholder)", text: $description,axis: .vertical)
         }.padding(10)
+            .keyboardType(.default)
     }
 }
 
