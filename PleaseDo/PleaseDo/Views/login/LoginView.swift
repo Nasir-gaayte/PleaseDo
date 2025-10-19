@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @State var vm:LoginVM = LoginVM()
-   @Binding var userName:String
+   @Binding var email:String
     @Binding var password:String
     @State private var path:[NavPath] = []
     
@@ -33,7 +33,7 @@ struct LoginView: View {
                         .foregroundColor(.secondary)
                 }.padding(10)
             }.padding(10)
-            TextField( "\(Image(systemName: "person.fill")) Username", text: $userName)
+            TextField( "\(Image(systemName: "person.fill")) Username", text: $email)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
@@ -65,5 +65,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView(userName: .constant(""), password:.constant(""))
+    LoginView(email: .constant(""), password:.constant(""))
 }

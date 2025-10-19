@@ -54,14 +54,14 @@ struct SignupView: View {
                 .keyboardType(.default)
             
             ButtonLogView(title:"SignUp") {
-                print("hala")
+                vm.signUp()
             }
             Spacer()
             
             HStack{
                 Text("If you already have an account?")
                 NavigationLink("Login"){
-                    LoginView(userName: $vm.username, password:$vm.password)
+                    LoginView(email: $vm.email, password:$vm.password)
                 }
             }
         }

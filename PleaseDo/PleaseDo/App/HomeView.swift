@@ -10,8 +10,9 @@ import SwiftUI
 struct HomeView: View {
     
     @State private var vm  = ListVM()
+    @State var lvm = LoginVM()
     @State private var path:[NavPath] = []
-    @State private var showLogout:Bool = false
+    
    
     var body: some View {
         NavigationStack(path: $path){
@@ -35,7 +36,7 @@ struct HomeView: View {
                 // Left side (Leading)
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        showLogout = true
+                        $lvm.isLoggingIn.wrappedValue = true
                     } label: {
                         Image(systemName: "person.crop.circle")
                     }
@@ -58,14 +59,14 @@ struct HomeView: View {
                 case .details(let item):
                     ItemDetailsView(item: item)
                 case .login:
-                    LoginView()
+                    LoginView(email: $lvm.email, password: $lvm.password)
                 case .signup:
-                    SignupView()
+                    SignupView(email: $lvm.email, password: $lvm.password, firstName: $lvm.firstName, secondName: $lvm.secondName,)
                 case .loginPage:
                     LogedPageView()
                 }
             }
-            .confirmationDialog("Containue Signing Out?",isPresented: $showLogout) {
+            .confirmationDialog("Containue Signing Out?",isPresented: $lvm.isLoggingIn) {
                 Button("Confirm",role: .destructive){
                     print( "logout")
                     path.append(NavPath.loginPage)

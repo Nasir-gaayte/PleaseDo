@@ -19,7 +19,7 @@ struct LogedPageView: View {
                 Text("loggedIn")
             }else {
               
-                LoginView(userName: $vm.username, password: $vm.password)
+                LoginView(email: $vm.email, password: $vm.password)
             }
         }
     }
