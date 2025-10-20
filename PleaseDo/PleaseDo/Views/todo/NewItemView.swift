@@ -71,6 +71,7 @@ Divider()
                        
 
         }.navigationBarTitle("New Item")
+            .ignoresSafeArea()
     }
 }
 

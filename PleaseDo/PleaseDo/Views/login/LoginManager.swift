@@ -12,36 +12,29 @@ import FirebaseFirestore
 
 final class LoginManager {
     
-    var currentUser:User?
-    let db = Firestore.firestore()
     
-    func signup(_ farstName:String, _ secondName:String, _ email:String ,_ password:String){
-        Auth.auth().createUser(withEmail: email, password: password)  {[weak self] result, error in
-            if let error {
-                print(error)
-                return
+    let db = Firestore.firestore()
+    let auth = Auth.auth()
+    
+    private(set) var currentUser: User? 
+    
+    func signUp(_ firesName: String, _ secondName: String, _ email: String, _ newPW: String) {
+            Task {
+                do {
+                    let result = try await auth.createUser(withEmail: email, password: newPW)
+                    let id = result.user.uid
+                    let db = Firestore.firestore()
+                    let users = db.collection("Users")
+                    try await users.document(id).setData([
+                        "firesName": firesName,
+                        "secondName": secondName,
+                        "email": email
+                    ])
+                    currentUser = result.user
+                    print("Successfully created user!")
+                } catch {
+                    print(error)
+                }
             }
-            guard let self, let result else { return }
-           currentUser = result.user
-           let id = result.user.uid
-            
-            Task{ [weak self] in guard let self else { return }
-                // Add a new document in collection "cities"
-                           do {
-                             try await db.collection("Users").document(id).setData([
-                               "id": id,
-                               "firstName": farstName,
-                               "secondName": secondName,
-                               "email": email
-                             ])
-                             print("Document successfully written!")
-                           } catch {
-                             print("Error writing document: \(error)")
-                           }
-            }
-            
-           
-            
-            
-        }    }
+        }
 }

@@ -11,7 +11,7 @@ struct LoginView: View {
     @State var vm:LoginVM = LoginVM()
    @Binding var email:String
     @Binding var password:String
-    @State private var path:[NavPath] = []
+   
     
     
     var body: some View {
@@ -54,11 +54,12 @@ struct LoginView: View {
             HStack{
                 Text("Don't have an account?")
                 NavigationLink("Sign up") {
-                    SignupView(email: $vm.email, password: $vm.password, firstName: $vm.firstName, secondName: $vm.secondName)
+                    SignupView(newMail: $vm.newMail, newPW: $vm.newPW, firstName: $vm.firstName, secondName: $vm.secondName)
                 }
 
             }
         }.navigationTitle(Text("Login"))
+            .ignoresSafeArea()
     }
     
     

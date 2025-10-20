@@ -27,12 +27,17 @@ import Observation
    
     var email: String = ""
     var password: String = ""
+    
+    
     var firstName: String = ""
     var secondName: String = ""
-    
-    func signUp(){
-        auth.signup(firstName, secondName,
-                email, password)
+    var newMail : String = ""
+    var newPW : String = ""
+
+    func signUp() {
+        
+
+        auth.signUp(firstName, secondName, newMail, newPW)
     }
     
 }

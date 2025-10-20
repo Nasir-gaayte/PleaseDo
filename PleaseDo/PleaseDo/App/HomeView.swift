@@ -61,7 +61,7 @@ struct HomeView: View {
                 case .login:
                     LoginView(email: $lvm.email, password: $lvm.password)
                 case .signup:
-                    SignupView(email: $lvm.email, password: $lvm.password, firstName: $lvm.firstName, secondName: $lvm.secondName,)
+                    SignupView(newMail: $lvm.newMail, newPW: $lvm.newPW, firstName: $lvm.firstName, secondName: $lvm.secondName,)
                 case .loginPage:
                     LogedPageView()
                 }

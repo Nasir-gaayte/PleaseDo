@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SignupView: View {
     @State var vm:LoginVM = LoginVM()
-    @Binding var email:String
-     @Binding var password:String
+    @Binding var newMail:String
+     @Binding var newPW:String
     @Binding var firstName:String
     @Binding var secondName:String
     var body: some View {
@@ -41,19 +41,23 @@ struct SignupView: View {
                 .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
                 .keyboardType(.default)
-            TextField( "\(Image(systemName: "mail")) Email", text: $email)
+            TextField( "\(Image(systemName: "mail")) Email", text: $newMail)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
                 .keyboardType(.default)
             
-            SecureField("\(Image(systemName: "lock.fill")) Password", text: $password)
+            SecureField("\(Image(systemName: "lock.fill")) Password", text: $newPW)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
                 .keyboardType(.default)
             
             ButtonLogView(title:"SignUp") {
+                vm.firstName = firstName
+                    vm.secondName = secondName
+                    vm.newMail = newMail
+                    vm.newPW = newPW
                 vm.signUp()
             }
             Spacer()
@@ -64,10 +68,10 @@ struct SignupView: View {
                     LoginView(email: $vm.email, password:$vm.password)
                 }
             }
-        }
+        }.ignoresSafeArea()
     }
 }
 
 #Preview {
-    SignupView(email: .constant(""), password: .constant(""), firstName: .constant(""), secondName: .constant(""))
+    SignupView(newMail: .constant(""), newPW: .constant(""), firstName: .constant(""), secondName: .constant(""))
 }
