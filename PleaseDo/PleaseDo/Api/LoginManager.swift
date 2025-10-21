@@ -14,9 +14,22 @@ final class LoginManager {
     
     
     let db = Firestore.firestore()
+    var handler:AuthStateDidChangeListenerHandle?
     let auth = Auth.auth()
     
-    private(set) var currentUser: User? 
+    private(set) var currentUser: User?
+    
+    
+    init()
+    {
+        setupListener()
+    }
+    
+    deinit {
+        removerListener()
+    }
+    
+    
     
     func signUp(_ firesName: String, _ secondName: String, _ email: String, _ newPW: String) {
             Task {
@@ -37,4 +50,43 @@ final class LoginManager {
                 }
             }
         }
+    
+    func signOut(){
+        
+        do{
+            try Auth.auth().signOut()
+            currentUser = nil
+            removerListener()
+            print("Successfully signed out!")
+        } catch {
+            print(error)
+        }
+        
+        
+    }
+    
+    
+    
+    
+    func setupListener(){
+        guard handler == nil else { return }
+        handler = Auth.auth().addStateDidChangeListener { [weak self ] auth, user in
+            guard let self else { return }
+            currentUser = auth.currentUser
+            
+        }
+    }
+    
+    
+    func removerListener(){
+        if let h = handler {
+            Auth.auth().removeStateDidChangeListener(h)
+        }
+    }
+    
+    
+    
+    
+    
+    
 }
