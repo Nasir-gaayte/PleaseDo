@@ -1,48 +1,35 @@
-//
-//  HomeView.swift
-//  PleaseDo
-//
-//  Created by nasir on 14/10/25.
-//
-
 import SwiftUI
 
 struct HomeView: View {
-    
     @State private var vm  = ListVM()
     @State var lvm = LoginVM()
     @State private var path:[NavPath] = []
     
-   
+    // Add this to control when the dialog appears
+    @State private var showLogoutDialog = false
+    
     var body: some View {
-        NavigationStack(path: $path){
-            ZStack  {
-                Color.background
-                    .ignoresSafeArea()
-                
+        NavigationStack(path: $path) {
+            ZStack {
+                Color.background.ignoresSafeArea()
                 
                 TabView {
                     ListView(title: "To Do", items: $vm.todoItem)
                     ListView(title: "In Progress", items: $vm.inProgressItem)
                     ListView(title: "Done", items: $vm.doneItem)
-                          }
-                          .tabViewStyle(.page)
+                }
+                .tabViewStyle(.page)
             }
             
-          
-            .navigationBarTitleDisplayMode(.inline)
-        
             .toolbar {
-                // Left side (Leading)
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        $lvm.isLoggingIn.wrappedValue = true
+                        showLogoutDialog = true   // manually trigger dialog
                     } label: {
                         Image(systemName: "person.crop.circle")
                     }
                 }
 
-                // Right side (Trailing)
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         path.append(NavPath.newItem)
@@ -51,8 +38,29 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationDestination(for: NavPath.self
-            ) { path in
+            
+            // 👇 Confirmation dialog using Boolean
+            .confirmationDialog("Continue Signing Out?", isPresented: $showLogoutDialog) {
+                Button("Confirm", role: .destructive) {
+                    LoginManager().signOut()
+                    lvm.loginStatus = .loggedOut
+
+                    // Delay to next frame to avoid multiple updates per frame
+                    DispatchQueue.main.async {
+                        path = [.login]
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            }
+            
+            // 👇 Respond to changes in loginStatus
+            .onChange(of: lvm.loginStatus) { oldValue, newValue in
+                if newValue == .loggedOut {
+                    showLogoutDialog = true
+                }
+            }
+            
+            .navigationDestination(for: NavPath.self) { path in
                 switch path {
                 case .newItem:
                     NewItemView()
@@ -61,28 +69,16 @@ struct HomeView: View {
                 case .login:
                     LoginView(email: $lvm.email, password: $lvm.password)
                 case .signup:
-                    SignupView(newMail: $lvm.newMail, newPW: $lvm.newPW, firstName: $lvm.firstName, secondName: $lvm.secondName,)
+                    SignupView(
+                        newMail: $lvm.newMail,
+                        newPW: $lvm.newPW,
+                        firstName: $lvm.firstName,
+                        secondName: $lvm.secondName
+                    )
                 case .loginPage:
                     LogedPageView()
                 }
             }
-            .confirmationDialog("Containue Signing Out?",isPresented: $lvm.isLoggingIn) {
-                Button("Confirm",role: .destructive){
-                    print( "logout")
-                    path.append(NavPath.loginPage)
-                }
-                Button("Cancel",role: .close){
-                    print( "cancel")
-                }
-                
-            } message: {
-                Text("Continue Signing Out?")
-            }
         }
-        
     }
-}
-
-#Preview {
-    HomeView()
 }

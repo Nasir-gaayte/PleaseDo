@@ -14,13 +14,13 @@ struct LogedPageView: View {
     var body: some View {
         VStack {
             
-            
-            if vm.isLoggingIn  {
-                Text("loggedIn")
-            }else {
-              
-                LoginView(email: $vm.email, password: $vm.password)
-            }
+//            
+//            if $vm.loginStatus  {
+//                Text("loggedIn")
+//            }else {
+//              
+//                LoginView(email: $vm.email, password: $vm.password)
+//            }
         }
     }
 }

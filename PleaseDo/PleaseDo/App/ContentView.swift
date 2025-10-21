@@ -8,8 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var vm = LoginVM()
+    
     var body: some View {
-        HomeView()
+        switch vm.loginStatus {
+            case .loggedIn:
+            HomeView()
+            case .loggedOut:
+            LoginView(email: $vm.email, password: $vm.password)
+        case .unowned:
+            Text("unknown error")
+        
+        }
     }
 }
 

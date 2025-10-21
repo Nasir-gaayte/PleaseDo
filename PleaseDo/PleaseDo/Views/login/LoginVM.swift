@@ -11,15 +11,11 @@ import Observation
 @Observable final class LoginVM  {
     private let auth = LoginManager()
     enum Status{
-        case unowned , login, lougout
+        case unowned , loggedIn, loggedOut
     }
     var loginStatus: Status = .unowned
     
-    var isLoggingIn : Bool = false {
-        willSet{
-            self.loginStatus = newValue ? .login : .unowned
-        }
-    }
+    var isLoggedIn : Bool = false
     
     var toggleText = "Dont have an acoonut"
     var prompt = "Sign up Here"
@@ -33,11 +29,27 @@ import Observation
     var secondName: String = ""
     var newMail : String = ""
     var newPW : String = ""
-
+    
+    
+    init() {
+        auth.delegate = self
+    }
+    
+    
+    func signIn() {
+        auth.signIn(email, password)
+    }
+    
+    
     func signUp() {
-        
-
         auth.signUp(firstName, secondName, newMail, newPW)
     }
     
+}
+
+
+extension LoginVM: LoginManagerDelegate {
+    func authStateDidChange(isLoggedIn: Bool) {
+        loginStatus = isLoggedIn ? .loggedIn : .loggedOut
+    }
 }
