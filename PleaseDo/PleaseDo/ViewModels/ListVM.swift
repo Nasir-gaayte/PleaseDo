@@ -11,16 +11,44 @@ import Observation
 
 
 @Observable final class ListVM {
-     var todoItem:[Item]=[Item(id: "1", authorId: "nasir", title: "test To Do", description: "this is a test todo descriptions  ",status: .done, priority: .low),
-                                    Item(id: "2", authorId: "Hussein", title: "test To Do2", description: "this is a test todo descriptions  2",status: .todo, priority: .high),
-                                    Item(id: "3", authorId: "Hasan", title: "test To Do3", description: "this is a test todo descriptions  3",status: .inProgress , priority: .medium),]
-     var inProgressItem:[Item]=[Item(id: "1", authorId: "nasir", title: "test To Do", description: "this is a test todo descriptions  ",status: .done, priority: .low),
-                                          Item(id: "2", authorId: "Hussein", title: "test To Do2", description: "this is a test todo descriptions  2",status: .todo, priority: .high),
-                                          Item(id: "3", authorId: "Hasan", title: "test To Do3", description: "this is a test todo descriptions  3",status: .inProgress , priority: .medium),]
-   var doneItem:[Item]=[Item(id: "1", authorId: "nasir", title: "test To Do", description: "this is a test todo descriptions  ",status: .done, priority: .low),
-                                    Item(id: "2", authorId: "Hussein", title: "test To Do2", description: "this is a test todo descriptions  2",status: .todo, priority: .high),
-                                    Item(id: "3", authorId: "Hasan", title: "test To Do3", description: "this is a test todo descriptions  3",status: .inProgress , priority: .medium),]
-//    @Published var unknownItem:[Item]=[]
+     var todoItem:[Item]=[]
+     var inProgressItem:[Item]=[]
+   var doneItem:[Item]=[]
     
     
+    
+    
+
+    
+    init(){
+        IM.shared.delegate = self
+    }
+    
+    
+    
+    func fetchItems(){
+        IM.shared.fetchItems()
+    }
+}
+
+
+extension ListVM : ItemManagerDelegate {
+    func didFetchBatchItems(_ items: [Status:[Item]]){
+        for status in items.keys{
+            switch status {
+            case .todo:
+                todoItem = items[status]!
+            case .inProgress:
+                inProgressItem = items[status]!
+            case .done:
+                doneItem = items[status]!
+            case .unowned:
+                continue
+            
+            }
+        }
+    }
+    func didAddItem(_ item: Item){}
+    func didUpdateItem(_ item: Item){}
+    func didDeleteItem(_ item: Item){}
 }

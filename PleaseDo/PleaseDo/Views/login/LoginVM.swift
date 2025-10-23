@@ -34,7 +34,9 @@ import Observation
     init() {
         auth.delegate = self
     }
-    
+    func singOut() {
+        auth.signOut()
+    }
     
     func signIn() {
         auth.signIn(email, password)

@@ -40,11 +40,12 @@ struct LoginView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .shadow(color: .gray, radius: 4.5, x: 1, y: 2.5)
                     .padding()
-                
+                                    
                 SecureField("\(Image(systemName: "lock.fill")) Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .shadow(color: .gray, radius: 4.5, x: 1, y: 2.5)
                     .padding()
+                   
                 
                 ButtonLogView(title: "Login") {
                     vm.email = email
@@ -67,7 +68,8 @@ struct LoginView: View {
                 }
             }
             .navigationTitle("Login")
-            .ignoresSafeArea()
+            .ignoresSafeArea(edges: .all)
+            
         }
     }
 }

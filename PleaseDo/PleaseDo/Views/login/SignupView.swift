@@ -36,22 +36,30 @@ struct SignupView: View {
                 .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
                 .keyboardType(.default)
+                .ignoresSafeArea()
+            
+            
             TextField( "\(Image(systemName: "person.fill")) Second Name", text: $secondName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
                 .keyboardType(.default)
+                .ignoresSafeArea()
+            
+            
             TextField( "\(Image(systemName: "mail")) Email", text: $newMail)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
                 .keyboardType(.default)
+                .ignoresSafeArea()
             
             SecureField("\(Image(systemName: "lock.fill")) Password", text: $newPW)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .shadow(color: .gray, radius:4.5,x:1,y:2.5)
                 .padding()
                 .keyboardType(.default)
+                .ignoresSafeArea()
             
             ButtonLogView(title:"SignUp") {
                 vm.firstName = firstName
@@ -68,7 +76,7 @@ struct SignupView: View {
                     LoginView(email: $vm.email, password:$vm.password)
                 }
             }
-        }.ignoresSafeArea()
+        }
     }
 }
 

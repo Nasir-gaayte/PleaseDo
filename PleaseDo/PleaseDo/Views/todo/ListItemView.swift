@@ -32,6 +32,8 @@ struct ListItemView: View {
             return "square"
         case .low:
             return "rectangle"
+        case .unowned:
+            return "xmark.circle"
         }
     }
     
@@ -43,6 +45,8 @@ struct ListItemView: View {
             return .yellow
         case .low:
             return .blue
+        case .unowned:
+            return .orange
         }
     }
 }
@@ -53,7 +57,7 @@ struct ListItemView: View {
             id: "1",
             authorId: "nasir",
             title: "Test To Do",
-            description: "This is a test todo description",
+            description: "This is a test todo description", startDate: .now,
             status: .done,
             priority: .low
         ),

@@ -23,6 +23,7 @@ struct TitleTextField: View {
            TextField("\(placeholder)", text: $description,axis: .vertical)
         }.padding(10)
             .keyboardType(.default)
+            .ignoresSafeArea()
     }
 }
 

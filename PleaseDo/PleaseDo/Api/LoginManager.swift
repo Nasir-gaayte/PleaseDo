@@ -66,12 +66,12 @@ final class LoginManager {
     func signIn(_ email: String, _ password: String) {
         Task {
             do {
-             let result = try await  auth.signIn(with: EmailAuthProvider.credential(withEmail: email, password: password))
+                let result = try await auth.signIn(withEmail: email, password: password)
                 currentUser = result.user
-                print("Successfully signed in!")
+                print("✅ Successfully signed in:", result.user.email ?? "")
                 setupListener()
             } catch {
-                print(error)
+                print("❌ Login failed:", error.localizedDescription)
             }
         }
     }

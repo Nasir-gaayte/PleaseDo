@@ -43,9 +43,9 @@ struct ListView: View {
 
 #Preview {
     ListView(title: "To Do", items: .constant([
-        Item(id: "1", authorId: "nasir", title: "test To Do", description: "this is a test todo descriptions  ",status: .done, priority: .low),
-        Item(id: "2", authorId: "Hussein", title: "test To Do2", description: "this is a test todo descriptions  2",status: .todo, priority: .high),
-        Item(id: "3", authorId: "Hasan", title: "test To Do3", description: "this is a test todo descriptions  3",status: .inProgress , priority: .medium),
+        Item(id: "1", authorId: "nasir", title: "test To Do", description: "this is a test todo descriptions  ", startDate: .now,status: .done, priority: .low),
+        Item(id: "2", authorId: "Hussein", title: "test To Do2", description: "this is a test todo descriptions  2", startDate: .now,status: .todo, priority: .high),
+        Item(id: "3", authorId: "Hasan", title: "test To Do3", description: "this is a test todo descriptions  3", startDate: .now,status: .inProgress , priority: .medium),
     ]
                                             ))
     

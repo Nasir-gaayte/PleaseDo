@@ -4,6 +4,8 @@ struct HomeView: View {
     @State private var vm  = ListVM()
     @State var lvm = LoginVM()
     @State private var path:[NavPath] = []
+    @State var mlvm = LoginManager()
+    var confirm:String = ""
     
     // Add this to control when the dialog appears
     @State private var showLogoutDialog = false
@@ -13,14 +15,21 @@ struct HomeView: View {
             ZStack {
                 Color.background.ignoresSafeArea()
                 
-                TabView {
-                    ListView(title: "To Do", items: $vm.todoItem)
-                    ListView(title: "In Progress", items: $vm.inProgressItem)
-                    ListView(title: "Done", items: $vm.doneItem)
+                switch $lvm.loginStatus.wrappedValue {
+                case .loggedIn:
+                    TabView {
+                        ListView(title: "To Do", items: $vm.todoItem)
+                        ListView(title: "In Progress", items: $vm.inProgressItem)
+                        ListView(title: "Done", items: $vm.doneItem)
+                    }
+                    .tabViewStyle(.page)
+                case .loggedOut:
+                    EmptyView()
+                    .navigationBarTitle("To Do List")
+                case .unowned:
+                    Text("signup first")
                 }
-                .tabViewStyle(.page)
             }
-            
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
@@ -40,23 +49,32 @@ struct HomeView: View {
             }
             
             // 👇 Confirmation dialog using Boolean
-            .confirmationDialog("Continue Signing Out?", isPresented: $showLogoutDialog) {
-                Button("Confirm", role: .destructive) {
-                    LoginManager().signOut()
-                    lvm.loginStatus = .loggedOut
+            .confirmationDialog("Account Options", isPresented: $showLogoutDialog) {
+                if lvm.loginStatus == .loggedIn {
+                    Button("Log Out", role: .destructive) {
+                        mlvm.signOut()
+                        lvm.loginStatus = .loggedOut
 
-                    // Delay to next frame to avoid multiple updates per frame
-                    DispatchQueue.main.async {
-                        path = [.login]
+                        // Delay navigation slightly to avoid multiple updates
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            path = [.login]
+                        }
+                    }
+                } else {
+                    Button("Log In") {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            path = [.login]
+                        }
                     }
                 }
+
                 Button("Cancel", role: .cancel) {}
             }
             
             // 👇 Respond to changes in loginStatus
             .onChange(of: lvm.loginStatus) { oldValue, newValue in
                 if newValue == .loggedOut {
-                    showLogoutDialog = true
+                    showLogoutDialog = false
                 }
             }
             
@@ -79,6 +97,8 @@ struct HomeView: View {
                     LogedPageView()
                 }
             }
+        }.onAppear {
+            vm.fetchItems()
         }
     }
 }
