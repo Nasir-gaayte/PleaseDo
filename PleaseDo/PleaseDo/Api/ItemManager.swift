@@ -29,12 +29,15 @@ final class ItemManager {
     
     private var isInitialFatch = true
     
-    private var allItems: [Status:[Item]] = [
-        .todo: [],
-        .inProgress: [],
-        .done: []
+    private var allItems: [Status:[String:Item]] = [
+        .todo: [:],
+        .inProgress: [:],
+        .done: [:]
     ]
     
+    func addItem(_ item: Item) {
+        
+    }
     
     func fetchItems()  {
         guard let currentUser = Auth.auth().currentUser else { return }
@@ -56,7 +59,8 @@ final class ItemManager {
                   switch c.type {
                   case .added:
                       if isInitialFatch{
-                          allItems[item.status]?.append(item)
+                          allItems[item.status]?[item.id] = item
+                          
                       }else{
                           
                           delegate?.didAddItem(item)
@@ -78,10 +82,21 @@ final class ItemManager {
     private func sortBatchItems(){
         var sortedItems: [Status:[Item]] = [:]
         allItems.keys.forEach { status in
-            sortedItems[status] = allItems[status]?.sorted(by: {
+            sortedItems[status] = allItems[status]?.values.sorted(by: {
                 $0.startDate > $1.startDate
             })
         }
         delegate?.didFetchBatchItems(sortedItems)
     }
+    
+    func saveItem(_ item: Item) async throws {
+        // Add a new document in collection "cities"
+        do {
+            try await db.collection("Items").document("LA").setData(item.toObject())
+          print("Document successfully written!")
+        } catch {
+          print("Error writing document: \(error)")
+        }
+    }
 }
+

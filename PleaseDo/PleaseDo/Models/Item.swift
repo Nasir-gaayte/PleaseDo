@@ -22,9 +22,12 @@ struct Item :Identifiable , Equatable, Hashable{
     }
     
     init(data:[String:Any]){
-        id = data["id"] as! String
+     
+        
+        self.id = data["id"] as? String ?? UUID().uuidString
         authorId = data["authorId"] as! String
-        title = data["title"] as! String
+        self.title = data["title"] as? String ?? "Untitled"
+            
         description = data["description"] as! String
         
         let timestamp = data["startDate"] as! Timestamp
@@ -48,6 +51,21 @@ struct Item :Identifiable , Equatable, Hashable{
         self.status = status
         self.priority = priority
         
+    }
+    static func empty() -> Item {
+        return Item(id: UUID().uuidString, authorId: "", title: "", description: "", startDate: .now, status: .unowned, priority: .unowned)
+    }
+    
+    func toObject() -> [String:Any] {
+        var data: [String:Any] = [:]
+        data["id"] = id
+        data["authorId"] = authorId
+        data["title"] = title
+        data["description"] = description
+        data["startDate"] = Timestamp(date: startDate)
+        data["status"] = status.rawValue
+        data["priority"] = priority.rawValue
+        return data
     }
     
     
