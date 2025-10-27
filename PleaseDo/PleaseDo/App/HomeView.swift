@@ -81,9 +81,9 @@ struct HomeView: View {
             .navigationDestination(for: NavPath.self) { path in
                 switch path {
                 case .newItem:
-                    NewItemView()
+                    NewItemView(path:$path)
                 case .details(let item):
-                    ItemDetailsView(item: item)
+                    ItemDetailsView(path:$path,item: item)
                 case .login:
                     LoginView(email: $lvm.email, password: $lvm.password)
                 case .signup:

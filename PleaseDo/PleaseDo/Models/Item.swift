@@ -21,6 +21,17 @@ struct Item :Identifiable , Equatable, Hashable{
        return lhs.id == rhs.id
     }
     
+    func isDifferent(comparedTo item:Item) -> Bool {
+        return id != item.id
+        || authorId != item.authorId
+        || title != item.title
+        || description != item.description
+        || startDate != item.startDate
+        || status != item.status
+        || priority != item.priority
+    }
+     
+    
     init(data:[String:Any]){
      
         

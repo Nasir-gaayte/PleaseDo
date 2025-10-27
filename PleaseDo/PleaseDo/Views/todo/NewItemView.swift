@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct NewItemView: View {
-
-//    @State private var titleKey = ""
-//       @State private var description = ""
-//       @State private var selectedStatus: Status = .todo
-//       @State private var selectedPriority: Priority = .medium
+   
     @State private var newIVM:NewItemVM = NewItemVM()
-
+    @Binding var path:[NavPath]
+   
+    
     var body: some View {
         VStack{
            Spacer()
@@ -26,7 +24,7 @@ Divider()
                 // Status picker
                 VStack(alignment:.leading){
                     Text("Status:-")
-                    Picker("Select Status", selection: newIVM.newItem.status) {
+                    Picker("Select Status", selection: $newIVM.newItem.status) {
                         ForEach([Status.todo, .inProgress, .done, .unowned], id: \.self) { status in
                             Text(status.rawValue)
                                 .tag(status)
@@ -39,7 +37,7 @@ Divider()
                 VStack(alignment:.leading){
                     Text("Priority:-")
                     // Priority picker
-                    Picker("Select Priority", selection: newIVM.newItem.priority) {
+                    Picker("Select Priority", selection: $newIVM.newItem.priority) {
                         ForEach([Priority.low, .medium, .high], id: \.self) { priority in
                             Text(priority.rawValue.capitalized)
                                 .tag(priority)
@@ -53,20 +51,19 @@ Divider()
             Spacer()
             CTAButton(title: "save") {
                 newIVM.saveNewItem()
-                
-                
             }
-//            Button("Save") {
-//                            print("Item saved: \(titleKey)")
-//                    titleKey = ""
-//                    description = ""
-//                    selectedStatus = .todo
-//                   selectedPriority = .low
-//                        }
-//                        .buttonStyle(.borderedProminent)
-//                        .padding()
-                        
-                       
+            .alert("Alert", isPresented: $newIVM.saveItemError){
+                Button("Dismiss", role: .cancel){}
+            } message :{
+                Text("Error saving New Item")
+            }
+            .alert("Sccess!", isPresented: $newIVM.didSaveItem){
+                Button("Sccess!",role: .cancel){
+                    path.removeLast()
+                }
+            } message: {
+                Text("Saved New Item!")
+            }
 
         }.navigationBarTitle("New Item")
             
@@ -74,5 +71,5 @@ Divider()
 }
 
 #Preview {
-    NewItemView()
+    NewItemView(path:.constant([]))
 }
